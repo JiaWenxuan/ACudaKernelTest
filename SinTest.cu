@@ -1,4 +1,7 @@
 
+//nvcc -rdc=true ./SinTest.cu -o test
+//nsys profile ./test
+
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
 
@@ -9,7 +12,7 @@
 #include <math.h>
 #include <chrono>
 
-#define LOOP_NUM 1000
+#define LOOP_NUM 10
 
 using namespace std::chrono;
 
@@ -30,6 +33,7 @@ __global__ void Sin_2(double *a, double *b){
     if(i<268435456){
         for(int j=0;j<LOOP_NUM;j++){
             sinKernel(a, b);
+            __syncthreads();
         }
     }
 }
